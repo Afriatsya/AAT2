@@ -1,0 +1,1530 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#f8fafc" id="metaThemeColor">
+    <meta name="description" content="Website personal Afriatsyah Nasra Perdana, mahasiswa IT yang sedang belajar pengembangan web dan teknologi.">
+
+    <title>Afriatsyah Nasra Perdana | Personal Website</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Devicon untuk logo teknologi -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+
+    <style>
+        :root {
+            --accent: #6366f1;
+            --accent-rgb: 99, 102, 241;
+            --page-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --body-scale: 1;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 24px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--page-bg);
+            color: var(--text-main);
+            font-size: calc(16px * var(--body-scale));
+            transition: background-color .3s, color .3s;
+        }
+
+        body.dark {
+            --page-bg: #0b1120;
+            --card-bg: #111827;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border-color: #273449;
+        }
+
+        body.dark .bg-white {
+            background-color: var(--card-bg) !important;
+        }
+
+        body.dark .bg-slate-50 {
+            background-color: #0f172a !important;
+        }
+
+        body.dark .bg-slate-100 {
+            background-color: #1e293b !important;
+        }
+
+        body.dark .text-slate-900,
+        body.dark .text-slate-800,
+        body.dark .text-slate-700 {
+            color: #e2e8f0 !important;
+        }
+
+        body.dark .text-slate-600,
+        body.dark .text-slate-500 {
+            color: #94a3b8 !important;
+        }
+
+        body.dark .border-slate-100,
+        body.dark .border-slate-200 {
+            border-color: var(--border-color) !important;
+        }
+
+        body.dark input,
+        body.dark textarea {
+            background-color: #111827;
+            color: #f1f5f9;
+        }
+
+        /* Warna aksen dinamis */
+        .accent-text {
+            color: var(--accent) !important;
+        }
+
+        .accent-bg {
+            background-color: var(--accent) !important;
+        }
+
+        .accent-border {
+            border-color: var(--accent) !important;
+        }
+
+        .accent-ring {
+            box-shadow: 0 0 0 5px rgba(var(--accent-rgb), .13);
+        }
+
+        .accent-shadow {
+            box-shadow: 0 12px 30px rgba(var(--accent-rgb), .2);
+        }
+
+        .accent-gradient {
+            background-image: linear-gradient(
+                135deg,
+                var(--accent),
+                rgba(var(--accent-rgb), .72)
+            );
+        }
+
+        /* Tombol pengaturan mengambang */
+        .floating-settings {
+            position: fixed;
+            top: 22px;
+            right: 22px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .floating-button {
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            background: var(--card-bg);
+            color: var(--text-main);
+            box-shadow: 0 6px 20px rgba(15, 23, 42, .08);
+            cursor: pointer;
+            transition: transform .2s, border-color .2s, background .2s;
+        }
+
+        .floating-button:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent);
+        }
+
+        /* Panel pengaturan */
+        .settings-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1100;
+            background: rgba(2, 6, 23, .45);
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .25s, visibility .25s;
+        }
+
+        .settings-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .settings-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            z-index: 1101;
+            width: min(390px, 100%);
+            height: 100dvh;
+            overflow-y: auto;
+            padding: 26px;
+            background: var(--card-bg);
+            color: var(--text-main);
+            border-left: 1px solid var(--border-color);
+            box-shadow: -15px 0 50px rgba(0, 0, 0, .12);
+            transform: translateX(105%);
+            transition: transform .3s ease;
+        }
+
+        .settings-panel.open {
+            transform: translateX(0);
+        }
+
+        .settings-label {
+            display: block;
+            margin-bottom: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .settings-description {
+            font-size: 12px;
+            line-height: 1.6;
+            color: var(--text-muted);
+        }
+
+        .setting-option {
+            padding: 13px;
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            background: var(--page-bg);
+            cursor: pointer;
+            transition: border-color .2s, background .2s;
+        }
+
+        .setting-option.active {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(var(--accent-rgb), .12);
+        }
+
+        .color-choice {
+            width: 34px;
+            height: 34px;
+            border: 3px solid transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform .2s, border-color .2s;
+        }
+
+        .color-choice:hover {
+            transform: scale(1.1);
+        }
+
+        .color-choice.active {
+            border-color: var(--text-main);
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+        }
+
+        .setting-divider {
+            height: 1px;
+            margin: 23px 0;
+            background: var(--border-color);
+        }
+
+        /* Foto profil */
+        .profile-ring {
+            padding: 6px;
+            border: 3px solid var(--accent);
+            border-radius: 50%;
+            background: var(--card-bg);
+            box-shadow: 0 12px 35px rgba(var(--accent-rgb), .15);
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        /* Animasi scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: opacity .7s ease, transform .7s ease;
+        }
+
+        .reveal.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Kartu */
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            transition: transform .25s, border-color .25s, box-shadow .25s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(var(--accent-rgb), .5);
+            box-shadow: 0 15px 35px rgba(15, 23, 42, .06);
+        }
+
+        /* Animasi skill bar */
+        .skill-bar {
+            height: 7px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: #e2e8f0;
+        }
+
+        body.dark .skill-bar {
+            background: #273449;
+        }
+
+        .skill-progress {
+            width: 0;
+            height: 100%;
+            border-radius: inherit;
+            background: var(--accent);
+            transition: width 1.3s ease;
+        }
+
+        .skill-logo {
+            font-size: 32px;
+        }
+
+        /* Typing effect */
+        .typing-text {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.1em;
+            margin-left: 3px;
+            vertical-align: middle;
+            background: var(--accent);
+            animation: blink .8s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* Tombol kembali ke atas */
+        .back-to-top {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: 12px;
+            color: white;
+            background: var(--accent);
+            font-size: 14px;
+            font-weight: 600;
+            transition: transform .2s, opacity .2s;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Mode membaca */
+        body.reading-mode .reveal {
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
+        }
+
+        body.reading-mode .feature-card:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        body.reading-mode .typing-cursor {
+            display: none;
+        }
+
+        body.reading-mode .typing-text {
+            animation: none !important;
+        }
+
+        /* Preferensi mengurangi animasi */
+        body.reduce-motion *,
+        body.reduce-motion *::before,
+        body.reduce-motion *::after {
+            animation-duration: .01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: .01ms !important;
+            scroll-behavior: auto !important;
+        }
+
+        body.reduce-motion .reveal {
+            opacity: 1;
+            transform: none;
+        }
+
+        @media (max-width: 640px) {
+            .floating-settings {
+                top: 14px;
+                right: 14px;
+            }
+
+            .floating-button {
+                width: 42px;
+                height: 42px;
+                border-radius: 13px;
+            }
+
+            .settings-panel {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body class="font-inter">
+
+    <!-- Tombol mengambang -->
+    <div class="floating-settings">
+        <button
+            id="themeToggle"
+            class="floating-button"
+            type="button"
+            aria-label="Ganti tema"
+            title="Ganti tema"
+        >
+            <svg id="themeIcon" width="21" height="21" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="4"></circle>
+                <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path>
+            </svg>
+        </button>
+
+        <button
+            id="openSettings"
+            class="floating-button"
+            type="button"
+            aria-label="Buka pengaturan tampilan"
+            title="Pengaturan tampilan"
+        >
+            <svg width="21" height="21" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="m19.4 15 .1.1 1.4 1.1-1.4 2.4-1.7-.7a8 8 0 0 1-1.7 1l-.3 1.8h-2.8l-.3-1.8a8 8 0 0 1-1.7-1l-1.7.7-1.4-2.4 1.4-1.1a8 8 0 0 1 0-2l-1.4-1.1 1.4-2.4 1.7.7a8 8 0 0 1 1.7-1l.3-1.8h2.8l.3 1.8a8 8 0 0 1 1.7 1l1.7-.7 1.4 2.4-1.4 1.1a8 8 0 0 1 0 2Z" transform="translate(-1 -1) scale(1.04)"></path>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Overlay pengaturan -->
+    <div id="settingsOverlay" class="settings-overlay" aria-hidden="true"></div>
+
+    <!-- Panel Pengaturan Tampilan -->
+    <aside
+        id="settingsPanel"
+        class="settings-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="settingsTitle"
+        aria-hidden="true"
+        inert
+    >
+        <div class="flex items-start justify-between gap-4">
+            <div>
+                <h2 id="settingsTitle" class="text-xl font-extrabold">
+                    Pengaturan Tampilan
+                </h2>
+                <p class="settings-description mt-2">
+                    Sesuaikan website agar lebih nyaman untukmu.
+                </p>
+            </div>
+
+            <button
+                id="closeSettings"
+                type="button"
+                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border"
+                style="border-color: var(--border-color)"
+                aria-label="Tutup pengaturan"
+            >
+                <svg width="19" height="19" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round">
+                    <path d="m18 6-12 12M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Pilihan tema -->
+        <div class="setting-divider"></div>
+
+        <section>
+            <span class="settings-label">Tema website</span>
+
+            <div class="grid grid-cols-2 gap-3">
+                <button
+                    id="lightThemeOption"
+                    class="setting-option"
+                    type="button"
+                    data-theme-choice="light"
+                >
+                    <div class="mb-3 flex h-16 items-center justify-center rounded-lg bg-white text-slate-800">
+                        <svg width="26" height="26" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="1.8">
+                            <circle cx="12" cy="12" r="4"></circle>
+                            <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path>
+                        </svg>
+                    </div>
+                    <span class="block text-sm font-semibold">Terang</span>
+                </button>
+
+                <button
+                    id="darkThemeOption"
+                    class="setting-option"
+                    type="button"
+                    data-theme-choice="dark"
+                >
+                    <div class="mb-3 flex h-16 items-center justify-center rounded-lg bg-slate-900 text-white">
+                        <svg width="26" height="26" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z"></path>
+                        </svg>
+                    </div>
+                    <span class="block text-sm font-semibold">Gelap</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Pilihan warna -->
+        <div class="setting-divider"></div>
+
+        <section>
+            <div class="flex items-center justify-between gap-2">
+                <span class="settings-label mb-0">Warna aksen</span>
+                <span id="selectedColorName" class="settings-description">Indigo</span>
+            </div>
+
+            <p class="settings-description mt-2 mb-5">
+                Warna untuk tombol, ikon, dan elemen utama website.
+            </p>
+
+            <div class="flex flex-wrap items-center gap-4">
+                <button
+                    class="color-choice active"
+                    style="background:#6366f1"
+                    data-color="#6366f1"
+                    data-rgb="99, 102, 241"
+                    data-name="Indigo"
+                    type="button"
+                    aria-label="Warna indigo"
+                    aria-pressed="true"
+                ></button>
+
+                <button
+                    class="color-choice"
+                    style="background:#0ea5e9"
+                    data-color="#0ea5e9"
+                    data-rgb="14, 165, 233"
+                    data-name="Biru"
+                    type="button"
+                    aria-label="Warna biru"
+                    aria-pressed="false"
+                ></button>
+
+                <button
+                    class="color-choice"
+                    style="background:#10b981"
+                    data-color="#10b981"
+                    data-rgb="16, 185, 129"
+                    data-name="Hijau"
+                    type="button"
+                    aria-label="Warna hijau"
+                    aria-pressed="false"
+                ></button>
+
+                <button
+                    class="color-choice"
+                    style="background:#f59e0b"
+                    data-color="#f59e0b"
+                    data-rgb="245, 158, 11"
+                    data-name="Oranye"
+                    type="button"
+                    aria-label="Warna oranye"
+                    aria-pressed="false"
+                ></button>
+
+                <button
+                    class="color-choice"
+                    style="background:#f43f5e"
+                    data-color="#f43f5e"
+                    data-rgb="244, 63, 94"
+                    data-name="Merah muda"
+                    type="button"
+                    aria-label="Warna merah muda"
+                    aria-pressed="false"
+                ></button>
+            </div>
+        </section>
+
+        <!-- Ukuran teks -->
+        <div class="setting-divider"></div>
+
+        <section>
+            <div class="flex items-center justify-between gap-2">
+                <span class="settings-label mb-0">Ukuran teks</span>
+                <span id="fontSizeValue" class="settings-description">100%</span>
+            </div>
+
+            <p class="settings-description mt-2 mb-4">
+                Atur ukuran tulisan agar nyaman dibaca.
+            </p>
+
+            <div class="flex items-center gap-3">
+                <button
+                    id="decreaseFont"
+                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border text-lg font-semibold"
+                    style="border-color:var(--border-color)"
+                    type="button"
+                    aria-label="Perkecil teks"
+                >−</button>
+
+                <input
+                    id="fontSizeRange"
+                    type="range"
+                    min="90"
+                    max="120"
+                    step="5"
+                    value="100"
+                    class="w-full"
+                    aria-label="Ukuran teks"
+                    style="accent-color:var(--accent)"
+                >
+
+                <button
+                    id="increaseFont"
+                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border text-lg font-semibold"
+                    style="border-color:var(--border-color)"
+                    type="button"
+                    aria-label="Perbesar teks"
+                >+</button>
+            </div>
+
+            <div class="mt-2 flex justify-between text-xs" style="color:var(--text-muted)">
+                <span>90%</span>
+                <span>100%</span>
+                <span>120%</span>
+            </div>
+        </section>
+
+        <!-- Pengurangan animasi -->
+        <div class="setting-divider"></div>
+
+        <section class="flex items-start justify-between gap-4">
+            <div>
+                <span class="settings-label mb-1">Kurangi animasi</span>
+                <p class="settings-description">
+                    Mengurangi gerakan dan transisi visual.
+                </p>
+            </div>
+
+            <label class="relative mt-1 inline-flex shrink-0 cursor-pointer items-center">
+                <input id="reduceMotionToggle" type="checkbox" class="peer sr-only">
+
+                <span class="h-6 w-11 rounded-full bg-slate-300 transition-colors peer-checked:bg-[var(--accent)]"></span>
+
+                <span class="absolute left-1 top-1 h-4 w-4 rounded-full bg-white shadow transition-transform peer-checked:translate-x-5"></span>
+            </label>
+        </section>
+
+        <!-- Mode membaca -->
+        <div class="setting-divider"></div>
+
+        <section class="flex items-start justify-between gap-4">
+            <div>
+                <span class="settings-label mb-1">Mode membaca</span>
+                <p class="settings-description">
+                    Mengurangi efek visual agar lebih fokus membaca.
+                </p>
+            </div>
+
+            <label class="relative mt-1 inline-flex shrink-0 cursor-pointer items-center">
+                <input id="readingModeToggle" type="checkbox" class="peer sr-only">
+
+                <span class="h-6 w-11 rounded-full bg-slate-300 transition-colors peer-checked:bg-[var(--accent)]"></span>
+
+                <span class="absolute left-1 top-1 h-4 w-4 rounded-full bg-white shadow transition-transform peer-checked:translate-x-5"></span>
+            </label>
+        </section>
+
+        <!-- Tombol reset -->
+        <div class="setting-divider"></div>
+
+        <button
+            id="resetSettings"
+            class="flex w-full items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-semibold transition hover:opacity-75"
+            style="border-color:var(--border-color)"
+            type="button"
+        >
+            <svg width="17" height="17" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 12a9 9 0 1 0 3-6.7L3 8"></path>
+                <path d="M3 3v5h5"></path>
+            </svg>
+            Kembalikan ke pengaturan awal
+        </button>
+
+        <p class="settings-description mt-4 text-center">
+            Preferensi disimpan secara otomatis pada browser ini.
+        </p>
+    </aside>
+
+    <!-- HERO SECTION -->
+    <header id="top" class="relative overflow-hidden px-6 pb-20 pt-32 sm:pt-36 md:pb-28">
+        <div
+            class="pointer-events-none absolute -right-24 -top-20 h-72 w-72 rounded-full opacity-20 blur-3xl"
+            style="background:var(--accent)"
+        ></div>
+
+        <div
+            class="pointer-events-none absolute -left-24 bottom-0 h-64 w-64 rounded-full opacity-10 blur-3xl"
+            style="background:var(--accent)"
+        ></div>
+
+        <div class="relative mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2">
+
+            <div class="reveal order-2 text-center md:order-1 md:text-left">
+                <div class="mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm"
+                    style="border-color:var(--border-color);background:var(--card-bg)">
+                    <span class="h-2 w-2 rounded-full accent-bg"></span>
+                    <span style="color:var(--text-muted)">Personal Website</span>
+                </div>
+
+                <p class="mb-3 text-lg font-medium" style="color:var(--text-muted)">
+                    Halo, selamat datang!
+                </p>
+
+                <h1 class="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+                    Afriatsyah
+                    <span class="accent-text">Nasra Perdana.</span>
+                </h1>
+
+                <h2 class="mt-5 text-xl font-semibold sm:text-2xl">
+                    Panggil saja Aat
+                    <span aria-hidden="true">👋</span>
+                </h2>
+
+                <p class="mt-4 text-lg leading-relaxed" style="color:var(--text-muted)">
+                    Saya seorang
+                    <span id="typingText" class="typing-text">IT Student</span>
+                    <span class="typing-cursor" aria-hidden="true"></span>
+                </p>
+
+                <p class="mx-auto mt-5 max-w-xl leading-8 md:mx-0"
+                    style="color:var(--text-muted)">
+                    Saya senang mempelajari hal baru, terutama tentang teknologi,
+                    pengembangan website, dan dunia komputer. Di luar itu, saya
+                    juga menikmati bermain badminton dan mendengarkan musik.
+                </p>
+
+                <div class="mt-8 flex flex-wrap justify-center gap-3 md:justify-start">
+                    <a href="#about"
+                        class="inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold text-white accent-bg accent-shadow transition hover:-translate-y-1">
+                        Kenali Saya
+                        <svg width="17" height="17" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M7 17 17 7M7 7h10v10"></path>
+                        </svg>
+                    </a>
+
+                    <a href="#skills"
+                        class="rounded-xl border px-6 py-3.5 text-sm font-semibold transition hover:-translate-y-1"
+                        style="border-color:var(--border-color);background:var(--card-bg)">
+                        Lihat Kemampuan
+                    </a>
+                </div>
+            </div>
+
+            <div class="reveal order-1 flex justify-center md:order-2">
+                <div class="relative">
+                    <div class="profile-ring h-60 w-60 sm:h-72 sm:w-72">
+                        <img
+                            src="assets/WhatsApp Image 2026-10-27 at 10.41.34.jpeg"
+                            alt="Foto profil Afriatsyah Nasra Perdana"
+                            class="profile-image"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+                        >
+
+                        <div
+                            class="hidden h-full w-full items-center justify-center rounded-full text-7xl font-extrabold text-white accent-gradient"
+                            aria-label="Inisial A"
+                        >A</div>
+                    </div>
+
+                    <div class="absolute -bottom-3 -right-3 flex items-center gap-2 rounded-2xl border px-4 py-3 shadow-lg"
+                        style="background:var(--card-bg);border-color:var(--border-color)">
+                        <span class="text-xl" aria-hidden="true">💻</span>
+                        <div>
+                            <p class="text-xs" style="color:var(--text-muted)">Sedang belajar</p>
+                            <p class="text-sm font-bold">Dunia IT</p>
+                        </div>
+                    </div>
+
+                    <div class="absolute -left-5 top-8 flex h-12 w-12 items-center justify-center rounded-2xl border text-xl shadow-lg"
+                        style="background:var(--card-bg);border-color:var(--border-color)"
+                        aria-hidden="true">✨</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="px-6 py-20 sm:py-24">
+        <div class="mx-auto max-w-6xl">
+
+            <div class="reveal mb-12 text-center">
+                <p class="mb-3 text-sm font-bold uppercase tracking-[.2em] accent-text">
+                    Tentang Saya
+                </p>
+                <h2 class="text-3xl font-extrabold sm:text-4xl">Mengenal Aat Lebih Dekat</h2>
+                <p class="mx-auto mt-4 max-w-2xl leading-7" style="color:var(--text-muted)">
+                    Sedikit cerita tentang diri saya, hal yang saya sukai,
+                    dan tujuan yang ingin saya capai.
+                </p>
+            </div>
+
+            <div class="grid gap-6 md:grid-cols-2">
+                <article class="feature-card reveal rounded-3xl p-7 sm:p-9">
+                    <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl text-2xl"
+                        style="background:rgba(var(--accent-rgb),.12)">
+                        <span aria-hidden="true">🙋</span>
+                    </div>
+
+                    <h3 class="mb-4 text-xl font-bold">Siapa Saya?</h3>
+
+                    <p class="leading-8" style="color:var(--text-muted)">
+                        Saya Afriatsyah Nasra Perdana, biasa dipanggil Aat.
+                        Saya adalah seorang mahasiswa yang tertarik dengan
+                        perkembangan teknologi dan dunia pemrograman. Saya
+                        terus mencoba memahami hal-hal baru melalui proses
+                        belajar dan praktik.
+                    </p>
+                </article>
+
+                <article class="feature-card reveal rounded-3xl p-7 sm:p-9">
+                    <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl text-2xl"
+                        style="background:rgba(var(--accent-rgb),.12)">
+                        <span aria-hidden="true">🎯</span>
+                    </div>
+
+                    <h3 class="mb-4 text-xl font-bold">Tujuan Saya</h3>
+
+                    <p class="leading-8" style="color:var(--text-muted)">
+                        Saya ingin terus meningkatkan kemampuan di bidang
+                        teknologi, memahami cara membangun website, dan
+                        memperluas pengetahuan tentang keamanan siber.
+                        Bagi saya, setiap proyek dan pengalaman belajar
+                        merupakan kesempatan untuk berkembang.
+                    </p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOBI SECTION -->
+    <section id="hobi" class="px-6 py-20 sm:py-24" style="background:var(--card-bg)">
+        <div class="mx-auto max-w-6xl">
+
+            <div class="reveal mb-12 text-center">
+                <p class="mb-3 text-sm font-bold uppercase tracking-[.2em] accent-text">
+                    Di Luar Aktivitas
+                </p>
+                <h2 class="text-3xl font-extrabold sm:text-4xl">Hobi Saya</h2>
+                <p class="mx-auto mt-4 max-w-2xl leading-7" style="color:var(--text-muted)">
+                    Ada beberapa hal yang saya nikmati untuk mengisi waktu luang.
+                </p>
+            </div>
+
+            <div class="grid gap-6 md:grid-cols-2">
+
+                <article class="feature-card reveal rounded-3xl p-8 sm:p-10">
+                    <div class="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl text-3xl"
+                        style="background:rgba(var(--accent-rgb),.12)">
+                        <span aria-hidden="true">🏸</span>
+                    </div>
+
+                    <h3 class="text-xl font-bold">Badminton</h3>
+                    <p class="mt-4 leading-8" style="color:var(--text-muted)">
+                        Bermain badminton menjadi salah satu cara saya
+                        menikmati waktu luang, menjaga kebugaran, dan
+                        belajar tentang fokus serta kerja sama.
+                    </p>
+
+                    <div class="mt-6 flex flex-wrap gap-2">
+                        <span class="rounded-full px-3 py-1.5 text-xs font-semibold"
+                            style="background:rgba(var(--accent-rgb),.1);color:var(--accent)">
+                            Olahraga
+                        </span>
+                        <span class="rounded-full px-3 py-1.5 text-xs font-semibold"
+                            style="background:rgba(var(--accent-rgb),.1);color:var(--accent)">
+                            Aktivitas fisik
+                        </span>
+                    </div>
+                </article>
+
+                <article class="feature-card reveal rounded-3xl p-8 sm:p-10">
+                    <div class="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl text-3xl"
+                        style="background:rgba(var(--accent-rgb),.12)">
+                        <span aria-hidden="true">🎧</span>
+                    </div>
+
+                    <h3 class="text-xl font-bold">Musik</h3>
+                    <p class="mt-4 leading-8" style="color:var(--text-muted)">
+                        Mendengarkan musik adalah salah satu kegiatan yang
+                        saya nikmati saat bersantai atau menemani aktivitas
+                        sehari-hari.
+                    </p>
+
+                    <div class="mt-6 flex flex-wrap gap-2">
+                        <span class="rounded-full px-3 py-1.5 text-xs font-semibold"
+                            style="background:rgba(var(--accent-rgb),.1);color:var(--accent)">
+                            Musik
+                        </span>
+                        <span class="rounded-full px-3 py-1.5 text-xs font-semibold"
+                            style="background:rgba(var(--accent-rgb),.1);color:var(--accent)">
+                            Waktu luang
+                        </span>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SKILLS SECTION -->
+    <section id="skills" class="px-6 py-20 sm:py-24">
+        <div class="mx-auto max-w-6xl">
+
+            <div class="reveal mb-12 text-center">
+                <p class="mb-3 text-sm font-bold uppercase tracking-[.2em] accent-text">
+                    Perjalanan Belajar
+                </p>
+                <h2 class="text-3xl font-extrabold sm:text-4xl">Teknologi yang Saya Pelajari</h2>
+                <p class="mx-auto mt-4 max-w-2xl leading-7" style="color:var(--text-muted)">
+                    Beberapa teknologi yang sedang saya pelajari dan gunakan
+                    untuk memahami pengembangan website.
+                </p>
+            </div>
+
+            <div class="grid gap-6 sm:grid-cols-2">
+
+                <article class="feature-card reveal rounded-2xl p-6">
+                    <div class="mb-5 flex items-center gap-4">
+                        <i class="devicon-html5-plain colored skill-logo" aria-hidden="true"></i>
+                        <div class="flex-1">
+                            <h3 class="font-bold">HTML</h3>
+                            <p class="text-sm" style="color:var(--text-muted)">Struktur halaman web</p>
+                        </div>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="70%"></div>
+                    </div>
+                </article>
+
+                <article class="feature-card reveal rounded-2xl p-6">
+                    <div class="mb-5 flex items-center gap-4">
+                        <i class="devicon-css3-plain colored skill-logo" aria-hidden="true"></i>
+                        <div class="flex-1">
+                            <h3 class="font-bold">CSS</h3>
+                            <p class="text-sm" style="color:var(--text-muted)">Tampilan dan desain web</p>
+                        </div>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="60%"></div>
+                    </div>
+                </article>
+
+                <article class="feature-card reveal rounded-2xl p-6">
+                    <div class="mb-5 flex items-center gap-4">
+                        <i class="devicon-javascript-plain colored skill-logo" aria-hidden="true"></i>
+                        <div class="flex-1">
+                            <h3 class="font-bold">JavaScript</h3>
+                            <p class="text-sm" style="color:var(--text-muted)">Interaksi halaman web</p>
+                        </div>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="40%"></div>
+                    </div>
+                </article>
+
+                <article class="feature-card reveal rounded-2xl p-6">
+                    <div class="mb-5 flex items-center gap-4">
+                        <i class="devicon-laravel-original colored skill-logo" aria-hidden="true"></i>
+                        <div class="flex-1">
+                            <h3 class="font-bold">Laravel</h3>
+                            <p class="text-sm" style="color:var(--text-muted)">Framework pengembangan web</p>
+                        </div>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="45%"></div>
+                    </div>
+                </article>
+
+            </div>
+
+            <p class="reveal mt-6 text-center text-xs" style="color:var(--text-muted)">
+                Persentase di atas merupakan gambaran penilaian kemampuan pribadi,
+                bukan hasil pengujian kompetensi formal.
+            </p>
+        </div>
+    </section>
+
+    <!-- PENUTUP -->
+    <section class="px-6 py-20 sm:py-24" style="background:var(--card-bg)">
+        <div class="reveal mx-auto max-w-3xl text-center">
+
+            <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl text-3xl"
+                style="background:rgba(var(--accent-rgb),.12)">
+                <span aria-hidden="true">🤝</span>
+            </div>
+
+            <p class="mb-3 text-sm font-bold uppercase tracking-[.2em] accent-text">
+                Sampai Jumpa
+            </p>
+
+            <h2 class="text-3xl font-extrabold sm:text-4xl">
+                Senang Bisa Berkenalan!
+            </h2>
+
+            <p class="mx-auto mt-5 max-w-xl leading-8" style="color:var(--text-muted)">
+                Terima kasih sudah meluangkan waktu untuk mengenal saya.
+                Semoga saya bisa terus belajar, berkembang, dan menghasilkan
+                karya yang bermanfaat.
+            </p>
+
+            <a href="#top" class="back-to-top mt-8">
+                <svg width="18" height="18" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m18 15-6-6-6 6"></path>
+                </svg>
+                Kembali ke Atas
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="px-6 py-7 text-center" style="border-top:1px solid var(--border-color)">
+        <p class="text-sm" style="color:var(--text-muted)">
+            &copy; <span id="currentYear"></span> Afriatsyah Nasra Perdana.
+            Dibuat dengan semangat belajar.
+        </p>
+    </footer>
+
+    <script>
+        // =============================================
+        // PENGATURAN DAN PENYIMPANAN PREFERENSI
+        // =============================================
+
+        const STORAGE_KEY = 'aat-display-settings';
+
+        const defaultSettings = {
+            theme: 'light',
+            accent: '#6366f1',
+            accentRgb: '99, 102, 241',
+            accentName: 'Indigo',
+            fontSize: 100,
+            reduceMotion: false,
+            readingMode: false
+        };
+
+        const accentColors = [
+            {
+                color: '#6366f1',
+                rgb: '99, 102, 241',
+                name: 'Indigo'
+            },
+            {
+                color: '#0ea5e9',
+                rgb: '14, 165, 233',
+                name: 'Biru'
+            },
+            {
+                color: '#10b981',
+                rgb: '16, 185, 129',
+                name: 'Hijau'
+            },
+            {
+                color: '#f59e0b',
+                rgb: '245, 158, 11',
+                name: 'Oranye'
+            },
+            {
+                color: '#f43f5e',
+                rgb: '244, 63, 94',
+                name: 'Merah muda'
+            }
+        ];
+
+        let settings = { ...defaultSettings };
+
+        function loadSettings() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+
+                if (!saved) return;
+
+                const parsed = JSON.parse(saved);
+
+                if (!parsed || typeof parsed !== 'object') return;
+
+                settings = {
+                    ...defaultSettings,
+                    ...parsed
+                };
+
+                // Validasi nilai yang boleh diterapkan.
+                if (!['light', 'dark'].includes(settings.theme)) {
+                    settings.theme = defaultSettings.theme;
+                }
+
+                const validColor = accentColors.find(
+                    item => item.color === settings.accent
+                );
+
+                if (validColor) {
+                    settings.accent = validColor.color;
+                    settings.accentRgb = validColor.rgb;
+                    settings.accentName = validColor.name;
+                } else {
+                    settings.accent = defaultSettings.accent;
+                    settings.accentRgb = defaultSettings.accentRgb;
+                    settings.accentName = defaultSettings.accentName;
+                }
+
+                const fontSize = Number(settings.fontSize);
+
+                settings.fontSize = [90, 95, 100, 105, 110, 115, 120]
+                    .includes(fontSize)
+                    ? fontSize
+                    : 100;
+
+                settings.reduceMotion = settings.reduceMotion === true;
+                settings.readingMode = settings.readingMode === true;
+
+            } catch (error) {
+                settings = { ...defaultSettings };
+            }
+        }
+
+        function saveSettings() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+            } catch (error) {
+                // Website tetap berfungsi jika penyimpanan browser tidak tersedia.
+            }
+        }
+
+        // =============================================
+        // TERAPKAN TEMA
+        // =============================================
+
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const metaThemeColor = document.getElementById('metaThemeColor');
+
+        const sunIcon = `
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path>
+        `;
+
+        const moonIcon = `
+            <path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z"></path>
+        `;
+
+        function applyTheme() {
+            const isDark = settings.theme === 'dark';
+
+            document.body.classList.toggle('dark', isDark);
+
+            themeIcon.innerHTML = isDark ? moonIcon : sunIcon;
+
+            themeToggle.setAttribute(
+                'aria-label',
+                isDark ? 'Ganti ke tema terang' : 'Ganti ke tema gelap'
+            );
+
+            themeToggle.title = isDark
+                ? 'Ganti ke tema terang'
+                : 'Ganti ke tema gelap';
+
+            metaThemeColor.setAttribute(
+                'content',
+                isDark ? '#0b1120' : '#f8fafc'
+            );
+
+            document.querySelectorAll('[data-theme-choice]').forEach(button => {
+                const active = button.dataset.themeChoice === settings.theme;
+
+                button.classList.toggle('active', active);
+                button.setAttribute('aria-pressed', String(active));
+            });
+        }
+
+        function setTheme(theme) {
+            settings.theme = theme;
+            applyTheme();
+            saveSettings();
+        }
+
+        themeToggle.addEventListener('click', () => {
+            setTheme(settings.theme === 'dark' ? 'light' : 'dark');
+        });
+
+        document.querySelectorAll('[data-theme-choice]').forEach(button => {
+            button.addEventListener('click', () => {
+                setTheme(button.dataset.themeChoice);
+            });
+        });
+
+        // =============================================
+        // WARNA AKSEN
+        // =============================================
+
+        const selectedColorName = document.getElementById('selectedColorName');
+
+        function applyAccent() {
+            document.documentElement.style.setProperty(
+                '--accent',
+                settings.accent
+            );
+
+            document.documentElement.style.setProperty(
+                '--accent-rgb',
+                settings.accentRgb
+            );
+
+            selectedColorName.textContent = settings.accentName;
+
+            document.querySelectorAll('.color-choice').forEach(button => {
+                const active = button.dataset.color === settings.accent;
+
+                button.classList.toggle('active', active);
+                button.setAttribute('aria-pressed', String(active));
+            });
+        }
+
+        document.querySelectorAll('.color-choice').forEach(button => {
+            button.addEventListener('click', () => {
+                settings.accent = button.dataset.color;
+                settings.accentRgb = button.dataset.rgb;
+                settings.accentName = button.dataset.name;
+
+                applyAccent();
+                saveSettings();
+            });
+        });
+
+        // =============================================
+        // UKURAN TEKS
+        // =============================================
+
+        const fontSizeRange = document.getElementById('fontSizeRange');
+        const fontSizeValue = document.getElementById('fontSizeValue');
+
+        function applyFontSize() {
+            document.documentElement.style.setProperty(
+                '--body-scale',
+                settings.fontSize / 100
+            );
+
+            fontSizeRange.value = settings.fontSize;
+            fontSizeValue.textContent = settings.fontSize + '%';
+        }
+
+        function setFontSize(value) {
+            const newValue = Math.max(90, Math.min(120, Number(value)));
+
+            settings.fontSize = newValue;
+
+            applyFontSize();
+            saveSettings();
+        }
+
+        fontSizeRange.addEventListener('input', event => {
+            setFontSize(event.target.value);
+        });
+
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            setFontSize(settings.fontSize - 5);
+        });
+
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            setFontSize(settings.fontSize + 5);
+        });
+
+        // =============================================
+        // KURANGI ANIMASI DAN MODE MEMBACA
+        // =============================================
+
+        const reduceMotionToggle = document.getElementById('reduceMotionToggle');
+        const readingModeToggle = document.getElementById('readingModeToggle');
+
+        function applyMotionSettings() {
+            document.body.classList.toggle(
+                'reduce-motion',
+                settings.reduceMotion
+            );
+
+            document.body.classList.toggle(
+                'reading-mode',
+                settings.readingMode
+            );
+
+            reduceMotionToggle.checked = settings.reduceMotion;
+            readingModeToggle.checked = settings.readingMode;
+        }
+
+        reduceMotionToggle.addEventListener('change', event => {
+            settings.reduceMotion = event.target.checked;
+            applyMotionSettings();
+            saveSettings();
+        });
+
+        readingModeToggle.addEventListener('change', event => {
+            settings.readingMode = event.target.checked;
+            applyMotionSettings();
+            saveSettings();
+        });
+
+        // =============================================
+        // PANEL PENGATURAN
+        // =============================================
+
+        const settingsPanel = document.getElementById('settingsPanel');
+        const settingsOverlay = document.getElementById('settingsOverlay');
+        const openSettingsButton = document.getElementById('openSettings');
+        const closeSettingsButton = document.getElementById('closeSettings');
+
+        let previousFocus = null;
+
+        function openSettings() {
+            previousFocus = document.activeElement;
+
+            settingsPanel.classList.add('open');
+            settingsOverlay.classList.add('open');
+
+            settingsPanel.setAttribute('aria-hidden', 'false');
+            settingsOverlay.setAttribute('aria-hidden', 'false');
+            settingsPanel.inert = false;
+
+            document.body.style.overflow = 'hidden';
+
+            closeSettingsButton.focus();
+        }
+
+        function closeSettings() {
+            settingsPanel.classList.remove('open');
+            settingsOverlay.classList.remove('open');
+
+            settingsPanel.setAttribute('aria-hidden', 'true');
+            settingsOverlay.setAttribute('aria-hidden', 'true');
+            settingsPanel.inert = true;
+
+            document.body.style.overflow = '';
+
+            if (previousFocus && typeof previousFocus.focus === 'function') {
+                previousFocus.focus();
+            }
+        }
+
+        openSettingsButton.addEventListener('click', openSettings);
+        closeSettingsButton.addEventListener('click', closeSettings);
+        settingsOverlay.addEventListener('click', closeSettings);
+
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && settingsPanel.classList.contains('open')) {
+                closeSettings();
+            }
+        });
+
+        // =============================================
+        // RESET PENGATURAN
+        // =============================================
+
+        document.getElementById('resetSettings').addEventListener('click', () => {
+            settings = { ...defaultSettings };
+
+            applyAllSettings();
+            saveSettings();
+        });
+
+        // =============================================
+        // ANIMASI REVEAL SAAT SCROLL
+        // =============================================
+
+        const revealElements = document.querySelectorAll('.reveal');
+
+        if ('IntersectionObserver' in window) {
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('show');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.12
+            });
+
+            revealElements.forEach(element => {
+                revealObserver.observe(element);
+            });
+        } else {
+            revealElements.forEach(element => {
+                element.classList.add('show');
+            });
+        }
+
+        // =============================================
+        // ANIMASI SKILL BAR
+        // =============================================
+
+        const skillBars = document.querySelectorAll('.skill-progress');
+
+        if ('IntersectionObserver' in window) {
+            const skillObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.width = entry.target.dataset.width;
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.3
+            });
+
+            skillBars.forEach(bar => {
+                skillObserver.observe(bar);
+            });
+        } else {
+            skillBars.forEach(bar => {
+                bar.style.width = bar.dataset.width;
+            });
+        }
+
+        // =============================================
+        // TYPING EFFECT
+        // =============================================
+
+        const typingText = document.getElementById('typingText');
+
+        const words = [
+            'IT Student',
+            'Aspiring Web Developer',
+            'Learning Laravel',
+            'Exploring Technology'
+        ];
+
+        let wordIndex = 0;
+        let charIndex = words[0].length;
+        let deleting = false;
+        let typingTimer = null;
+
+        function typeEffect() {
+            if (settings.reduceMotion || settings.readingMode) {
+                typingText.textContent = words[0];
+                return;
+            }
+
+            const currentWord = words[wordIndex];
+
+            if (deleting) {
+                charIndex--;
+            } else {
+                charIndex++;
+            }
+
+            typingText.textContent = currentWord.substring(0, charIndex);
+
+            let delay = deleting ? 45 : 85;
+
+            if (!deleting && charIndex === currentWord.length) {
+                deleting = true;
+                delay = 1500;
+            } else if (deleting && charIndex === 0) {
+                deleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+                delay = 350;
+            }
+
+            typingTimer = setTimeout(typeEffect, delay);
+        }
+
+        function restartTypingEffect() {
+            if (typingTimer) {
+                clearTimeout(typingTimer);
+            }
+
+            if (settings.reduceMotion || settings.readingMode) {
+                typingText.textContent = words[0];
+                return;
+            }
+
+            typingText.textContent = '';
+            wordIndex = 0;
+            charIndex = 0;
+            deleting = false;
+
+            typingTimer = setTimeout(typeEffect, 200);
+        }
+
+        // =============================================
+        // TERAPKAN SEMUA PENGATURAN
+        // =============================================
+
+        function applyAllSettings() {
+            applyTheme();
+            applyAccent();
+            applyFontSize();
+            applyMotionSettings();
+            restartTypingEffect();
+        }
+
+        loadSettings();
+        applyAllSettings();
+
+        // Tahun otomatis
+        document.getElementById('currentYear').textContent =
+            new Date().getFullYear();
+    </script>
+
+</body>
+</html>
